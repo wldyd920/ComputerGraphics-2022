@@ -33,6 +33,8 @@ screen.fill(WHITE)
 clock= pygame.time.Clock()
 
 
+################################################# Functions ##################################################
+
 def drawPoint(pt, color='GREEN', thick=3):
     # pygame.draw.line(screen, color, pt, pt)
     pygame.draw.circle(screen, color, pt, thick)
@@ -42,8 +44,6 @@ def drawPolylines(color='GREEN', thick=3):
     for i in range(len(pts)-1):
         # drawLine(pts[i], pts[i+1], color)
         pygame.draw.line(screen, color, pts[i], pts[i+1], thick)
-
-################################################# Added ##################################################
 
 def drawLineEq(pt0, pt1, color='GREEN', thick=3):
     drawPoint(pt0, color, thick)
@@ -68,16 +68,25 @@ def drawLineEq(pt0, pt1, color='GREEN', thick=3):
 
 #HW2 implement drawLine with drawPoint
 def drawLine(pts, color='GREEN', thick=3):
+    # # every line subject to every points
+    # for i in range(len(pts)):
+    #     for j in range(len(pts)):
+    #         if i == j :
+    #             pass
+    #         else :
+    #             pt0 = pts[i]
+    #             pt1 = pts[j]
+    #             drawLineEq(pt0, pt1)
+    
+    # only the line between I clicked
     for i in range(len(pts)):
-        for j in range(len(pts)):
-            if i == j :
-                pass
-            else :
-                pt0 = pts[i]
-                pt1 = pts[j]
-                drawLineEq(pt0, pt1)
+        pt0 = pts[-1]
+        pt1 = pts[-2]
+        line = [pt0, pt1]
+        drawLineEq(pt0, pt1)
+        lines.append(line)
 
-################################################# Added ##################################################
+################################################# Class ##################################################
 
 class Pt():
     def __init__(self, x, y):
@@ -110,7 +119,7 @@ class Pt():
         pts.remove(self)
         del(self)
     
-################################################ Editted ##################################################
+################################################ Run ##################################################
 
 #Loop until the user clicks the close button.
 done = False
@@ -120,11 +129,12 @@ old_pressed = 0
 old_button1 = 0
 old_button3 = 0
 Points = []
+lines = []
 
 while not done:   
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
-    time_passed = clock.tick(60)
+    time_passed = clock.tick(30)
 
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -153,12 +163,12 @@ while not done:
         pts.append(Point.coordinate())
         print(pts)
         print("len:"+repr(len(pts))
-        +" mouse x:"+repr(x)
-        +" y:"+repr(y)
-        +" button1:"+repr(button1)
-        +" button3:"+repr(button3)
-        +" pressed:"+repr(pressed)
-        +" add pts ...")
+             +" mouse x:"+repr(x)
+             +" y:"+repr(y)
+             +" button1:"+repr(button1)
+             +" button3:"+repr(button3)
+             +" pressed:"+repr(pressed)
+             +" add pts ...")
         # elif len(pts) >= 3 :
         #     print("3 points is the maximum")
         #     pass
